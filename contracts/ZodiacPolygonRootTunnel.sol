@@ -3,21 +3,8 @@ pragma solidity 0.7.3;
 
 import './lib/FxBaseRootTunnel.sol';
 
-interface ZodiacBridge {
-  enum Operation {
-    Call,
-    DelegateCall
-  }
-
-  function executeTransaction(
-    address to,
-    uint256 value,
-    bytes memory data,
-    Operation operation
-  ) external;
-}
-
 contract ZodiacPolygonRootTunnel is FxBaseRootTunnel {
+  event Tunneling(bool success, bytes data);
   address lastController;
 
   constructor(address _checkpointManager, address _fxRoot)
@@ -27,23 +14,16 @@ contract ZodiacPolygonRootTunnel is FxBaseRootTunnel {
   function _processMessageFromChild(bytes memory message) internal override {
     (
       address controller,
-      address bridge,
-      address to,
-      uint256 value,
-      bytes memory data
-    ) = abi.decode(message, (address, address, address, uint256, bytes));
+      address target,
+      bytes targetCallPayload
+    ) = abi.decode(message, (address, address, bytes));
 
     lastController = controller;
-    ZodiacBridge(bridge).executeTransaction(
-      to,
-      value,
-      data,
-      ZodiacBridge.Operation.Call
-    );
+    target.call(targetCallPayload);    
   }
 
   function messageSender() public view returns (address) {
-    return lastController;
+      return lastController;
   }
 
   function messageSourceChainId() public pure returns (bytes32) {
