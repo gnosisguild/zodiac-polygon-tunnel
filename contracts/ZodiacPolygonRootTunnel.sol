@@ -12,18 +12,16 @@ contract ZodiacPolygonRootTunnel is FxBaseRootTunnel {
   {}
 
   function _processMessageFromChild(bytes memory message) internal override {
-    (
-      address controller,
-      address target,
-      bytes targetCallPayload
-    ) = abi.decode(message, (address, address, bytes));
+    (address controller, address target, bytes memory targetCallPayload) = abi
+      .decode(message, (address, address, bytes));
 
     lastController = controller;
-    target.call(targetCallPayload);    
+    (bool success, bytes memory data) = target.call(targetCallPayload);
+    emit Tunneling(success, data);
   }
 
   function messageSender() public view returns (address) {
-      return lastController;
+    return lastController;
   }
 
   function messageSourceChainId() public pure returns (bytes32) {
