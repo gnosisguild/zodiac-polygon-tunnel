@@ -12,10 +12,10 @@ contract ZodiacPolygonChildTunnel is FxBaseChildTunnel {
     bytes memory data
   ) internal override validateSender(sender) {
     revert('Not Implemented');
-  }  
+  }
 
-  function sendMessage(address target, bytes memory targetCallPayload) public {
-    bytes memory message = abi.encode(msg.sender, target, targetCallPayload);
+  function sendMessage(address target, bytes memory targetCalldata) public {
+    bytes memory message = abi.encode(msg.sender, target, targetCalldata);
     _sendMessageToRoot(message);
   }
 }

@@ -5,23 +5,26 @@ import './lib/FxBaseRootTunnel.sol';
 
 contract ZodiacPolygonRootTunnel is FxBaseRootTunnel {
   event Tunneling(bool success, bytes data);
-  address lastController;
+  address lastSender;
 
   constructor(address _checkpointManager, address _fxRoot)
     FxBaseRootTunnel(_checkpointManager, _fxRoot)
   {}
 
   function _processMessageFromChild(bytes memory message) internal override {
-    (address controller, address target, bytes memory targetCallPayload) = abi
-      .decode(message, (address, address, bytes));
+    (
+      address senderInChildChain,
+      address target,
+      bytes memory targetCallPayload
+    ) = abi.decode(message, (address, address, bytes));
 
-    lastController = controller;
+    lastSender = senderInChildChain;
     (bool success, bytes memory data) = target.call(targetCallPayload);
     emit Tunneling(success, data);
   }
 
   function messageSender() public view returns (address) {
-    return lastController;
+    return lastSender;
   }
 
   function messageSourceChainId() public pure returns (bytes32) {
