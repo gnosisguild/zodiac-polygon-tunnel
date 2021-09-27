@@ -10,12 +10,19 @@ contract ZodiacPolygonChildTunnel is FxBaseChildTunnel {
     uint256 stateId,
     address sender,
     bytes memory data
-  ) internal override validateSender(sender) {
+  ) internal view override validateSender(sender) {
+    (stateId);
+    (sender);
+    (data);
     revert('Not Implemented');
   }
 
-  function sendMessage(address target, bytes memory targetCalldata) public {
-    bytes memory message = abi.encode(msg.sender, target, targetCalldata);
+  function sendMessage(
+    address target,
+    bytes memory data,
+    uint256 gas
+  ) public {
+    bytes memory message = abi.encode(msg.sender, target, data, gas);
     _sendMessageToRoot(message);
   }
 }
