@@ -12,13 +12,7 @@ contract ZodiacPolygonChildTunnel is FxBaseChildTunnel {
     bytes memory data
   ) internal override validateSender(sender) {
     revert('Not Implemented');
-  }
-
-  /*
-   * Note: for testing purposes left the function signature in the current shape
-   * in the future signature will be (address contract, bytes data)
-   * i.e., controller will be required to submitted already abi encoded call data
-   */
+  }  
 
   function sendMessage(address target, bytes memory targetCallPayload) public {
     bytes memory message = abi.encode(msg.sender, target, targetCallPayload);
