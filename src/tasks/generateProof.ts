@@ -33,7 +33,7 @@ task(
     })
     const payload = await client[
       'posRootChainManager'
-    ].exitManager.buildPayloadForExit(tx, SEND_MESSAGE_EVENT_SIG)
+    ].exitManager.buildPayloadForExitHermoine(tx, SEND_MESSAGE_EVENT_SIG)
 
     console.log(payload)
   })
