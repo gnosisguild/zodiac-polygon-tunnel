@@ -2,7 +2,7 @@
 
 pragma solidity 0.7.3;
 
-import './RLPReader.sol';
+import "./RLPReader.sol";
 
 library MerklePatriciaProof {
   /*
@@ -126,7 +126,7 @@ library MerklePatriciaProof {
     pure
     returns (bytes memory)
   {
-    bytes memory nibbles = '';
+    bytes memory nibbles = "";
     if (b.length > 0) {
       uint8 offset;
       uint8 hpNibble = uint8(_getNthNibbleOfBytes(0, b));

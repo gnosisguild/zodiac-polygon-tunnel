@@ -2,9 +2,9 @@
 
 pragma solidity 0.7.3;
 
-import './RLPReader.sol';
-import './Merkle.sol';
-import './MerklePatriciaProof.sol';
+import "./RLPReader.sol";
+import "./Merkle.sol";
+import "./MerklePatriciaProof.sol";
 
 interface IFxStateSender {
   function sendMessageToChild(address _receiver, bytes calldata _data) external;
@@ -54,7 +54,7 @@ abstract contract FxBaseRootTunnel {
   function setFxChildTunnel(address _fxChildTunnel) public {
     require(
       fxChildTunnel == address(0x0),
-      'FxBaseRootTunnel: CHILD_TUNNEL_ALREADY_SET'
+      "FxBaseRootTunnel: CHILD_TUNNEL_ALREADY_SET"
     );
     fxChildTunnel = _fxChildTunnel;
   }
@@ -93,7 +93,7 @@ abstract contract FxBaseRootTunnel {
     );
     require(
       processedExits[exitHash] == false,
-      'FxRootTunnel: EXIT_ALREADY_PROCESSED'
+      "FxRootTunnel: EXIT_ALREADY_PROCESSED"
     );
     processedExits[exitHash] = true;
 
@@ -110,7 +110,7 @@ abstract contract FxBaseRootTunnel {
     // check child tunnel
     require(
       fxChildTunnel == RLPReader.toAddress(logRLPList[0]),
-      'FxRootTunnel: INVALID_FX_CHILD_TUNNEL'
+      "FxRootTunnel: INVALID_FX_CHILD_TUNNEL"
     );
 
     // verify receipt inclusion
@@ -121,7 +121,7 @@ abstract contract FxBaseRootTunnel {
         inputDataRLPList[7].toBytes(), // receiptProof
         bytes32(inputDataRLPList[5].toUint()) // receiptRoot
       ),
-      'FxRootTunnel: INVALID_RECEIPT_PROOF'
+      "FxRootTunnel: INVALID_RECEIPT_PROOF"
     );
 
     // verify checkpoint inclusion
@@ -138,7 +138,7 @@ abstract contract FxBaseRootTunnel {
 
     require(
       bytes32(logTopicRLPList[0].toUint()) == SEND_MESSAGE_EVENT_SIG, // topic0 is event sig
-      'FxRootTunnel: INVALID_SIGNATURE'
+      "FxRootTunnel: INVALID_SIGNATURE"
     );
 
     // received message data
@@ -166,7 +166,7 @@ abstract contract FxBaseRootTunnel {
     require(
       keccak256(abi.encodePacked(blockNumber, blockTime, txRoot, receiptRoot))
         .checkMembership(blockNumber - startBlock, headerRoot, blockProof),
-      'FxRootTunnel: INVALID_HEADER'
+      "FxRootTunnel: INVALID_HEADER"
     );
     return createdAt;
   }

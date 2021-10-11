@@ -31,7 +31,7 @@ abstract contract FxBaseChildTunnel is IFxMessageProcessor {
   modifier validateSender(address sender) {
     require(
       sender == fxRootTunnel,
-      'FxBaseChildTunnel: INVALID_SENDER_FROM_ROOT'
+      "FxBaseChildTunnel: INVALID_SENDER_FROM_ROOT"
     );
     _;
   }
@@ -40,7 +40,7 @@ abstract contract FxBaseChildTunnel is IFxMessageProcessor {
   function setFxRootTunnel(address _fxRootTunnel) external {
     require(
       fxRootTunnel == address(0x0),
-      'FxBaseChildTunnel: ROOT_TUNNEL_ALREADY_SET'
+      "FxBaseChildTunnel: ROOT_TUNNEL_ALREADY_SET"
     );
     fxRootTunnel = _fxRootTunnel;
   }
@@ -50,7 +50,7 @@ abstract contract FxBaseChildTunnel is IFxMessageProcessor {
     address rootMessageSender,
     bytes calldata data
   ) external override {
-    require(msg.sender == fxChild, 'FxBaseChildTunnel: INVALID_SENDER');
+    require(msg.sender == fxChild, "FxBaseChildTunnel: INVALID_SENDER");
     _processMessageFromRoot(stateId, rootMessageSender, data);
   }
 

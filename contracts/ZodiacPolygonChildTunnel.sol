@@ -1,21 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.7.3;
 
-import './lib/FxBaseChildTunnel.sol';
+import "./lib/FxBaseChildTunnel.sol";
+import "./TunnelTip.sol";
 
 contract ZodiacPolygonChildTunnel is FxBaseChildTunnel {
-  constructor(address _fxChild) FxBaseChildTunnel(_fxChild) {}
+  uint256 private stateId;
+  address private sender;
 
-  function _processMessageFromRoot(
-    uint256 stateId,
-    address sender,
-    bytes memory data
-  ) internal view override validateSender(sender) {
-    (stateId);
-    (sender);
-    (data);
-    revert('Not Implemented');
-  }
+  constructor(address _fxChild) FxBaseChildTunnel(_fxChild) {}
 
   function sendMessage(
     address target,
@@ -24,5 +17,23 @@ contract ZodiacPolygonChildTunnel is FxBaseChildTunnel {
   ) public {
     bytes memory message = abi.encode(msg.sender, target, data, gas);
     _sendMessageToRoot(message);
+  }
+
+  function _processMessageFromRoot(
+    uint256 _stateId,
+    address _sender,
+    bytes memory data
+  ) internal override validateSender(sender) {
+    stateId = _stateId;
+    sender = _sender;
+    (data);
+  }
+
+  function getStateId() public view returns (uint256) {
+    return stateId;
+  }
+
+  function getSender() public view returns (address) {
+    return sender;
   }
 }

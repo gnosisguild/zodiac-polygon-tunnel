@@ -1,9 +1,9 @@
-import '@nomiclabs/hardhat-etherscan'
-import '@nomiclabs/hardhat-waffle'
-import 'solidity-coverage'
-import 'hardhat-deploy'
-import dotenv from 'dotenv'
-import type { HttpNetworkUserConfig } from 'hardhat/types'
+import "@nomiclabs/hardhat-etherscan"
+import "@nomiclabs/hardhat-waffle"
+import "solidity-coverage"
+import "hardhat-deploy"
+import dotenv from "dotenv"
+import type { HttpNetworkUserConfig } from "hardhat/types"
 
 // Load environment variables.
 dotenv.config()
@@ -15,11 +15,11 @@ const {
   PK,
 } = process.env
 
-import './src/tasks/setup'
-import './src/tasks/generateProof'
+import "./src/tasks/setup"
+import "./src/tasks/generateProof"
 
 const DEFAULT_MNEMONIC =
-  'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'
+  "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
 
 const sharedNetworkConfig: HttpNetworkUserConfig = {}
 if (PK) {
@@ -32,13 +32,13 @@ if (PK) {
 
 export default {
   paths: {
-    artifacts: 'build/artifacts',
-    cache: 'build/cache',
-    deploy: 'src/deploy',
-    sources: 'contracts',
+    artifacts: "build/artifacts",
+    cache: "build/cache",
+    deploy: "src/deploy",
+    sources: "contracts",
   },
   solidity: {
-    version: '0.7.3',
+    version: "0.7.3",
   },
   networks: {
     mainnet: {
@@ -51,7 +51,7 @@ export default {
     },
     xdai: {
       ...sharedNetworkConfig,
-      url: 'https://xdai.poanetwork.dev',
+      url: "https://xdai.poanetwork.dev",
     },
     mumbai: {
       ...sharedNetworkConfig,
