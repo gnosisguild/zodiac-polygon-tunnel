@@ -5,7 +5,7 @@ import "./lib/FxBaseChildTunnel.sol";
 import "./TunnelEnd.sol";
 
 contract ZodiacPolygonChildTunnel is FxBaseChildTunnel, TunnelEnd {
-  bytes public latestData;
+  bytes public latestMessage;
 
   constructor(address _fxChild) FxBaseChildTunnel(_fxChild) {}
 
@@ -14,24 +14,23 @@ contract ZodiacPolygonChildTunnel is FxBaseChildTunnel, TunnelEnd {
     bytes memory data,
     uint256 gas
   ) public {
-    bytes memory message = abi.encode(
-      getChainId(),
-      msg.sender,
-      target,
-      data,
-      gas
-    );
+    bytes memory message = encodeIntoTunnel(target, data, gas);
     _sendMessageToRoot(message);
   }
 
   function _processMessageFromRoot(
-    uint256 stateId,
+    uint256,
     address sender,
-    bytes memory data
+    bytes memory message
   ) internal override validateSender(sender) {
-    (stateId);
-    (sender);
-    latestData = data;
-    decodeAndInvokeTarget(data);
+    latestMessage = message;
+    (
+      bytes32 sourceChainId,
+      address sourceChainSender,
+      address target,
+      bytes memory data,
+      uint256 gas
+    ) = decodeFromTunnel(message);
+    forwardToTarget(sourceChainId, sourceChainSender, target, data, gas);
   }
 }

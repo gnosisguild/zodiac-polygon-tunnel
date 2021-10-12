@@ -14,17 +14,18 @@ contract ZodiacPolygonRootTunnel is FxBaseRootTunnel, TunnelEnd {
     bytes memory data,
     uint256 gas
   ) public {
-    bytes memory message = abi.encode(
-      getChainId(),
-      msg.sender,
-      target,
-      data,
-      gas
-    );
+    bytes memory message = encodeIntoTunnel(target, data, gas);
     _sendMessageToChild(message);
   }
 
   function _processMessageFromChild(bytes memory message) internal override {
-    decodeAndInvokeTarget(message);
+    (
+      bytes32 sourceChainId,
+      address sourceChainSender,
+      address target,
+      bytes memory data,
+      uint256 gas
+    ) = decodeFromTunnel(message);
+    forwardToTarget(sourceChainId, sourceChainSender, target, data, gas);
   }
 }
