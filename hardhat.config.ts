@@ -1,5 +1,8 @@
-import "@nomiclabs/hardhat-etherscan"
+import "@typechain/hardhat"
+import "@nomiclabs/hardhat-ethers"
 import "@nomiclabs/hardhat-waffle"
+import "@nomiclabs/hardhat-etherscan"
+
 import "solidity-coverage"
 import "hardhat-deploy"
 import dotenv from "dotenv"
