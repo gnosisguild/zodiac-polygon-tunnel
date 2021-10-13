@@ -7,13 +7,8 @@ import type { HttpNetworkUserConfig } from "hardhat/types"
 
 // Load environment variables.
 dotenv.config()
-const {
-  INFURA_KEY,
-  MNEMONIC,
-  ETHERSCAN_API_KEY,
-  POLYGON_ETHERSCAN_API_KEY,
-  PK,
-} = process.env
+const { INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, POLYGON_ETHERSCAN_API_KEY } =
+  process.env
 
 import "./src/tasks/setup"
 import "./src/tasks/generateProof"
@@ -21,13 +16,10 @@ import "./src/tasks/generateProof"
 const DEFAULT_MNEMONIC =
   "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
 
-const sharedNetworkConfig: HttpNetworkUserConfig = {}
-if (PK) {
-  sharedNetworkConfig.accounts = [PK]
-} else {
-  sharedNetworkConfig.accounts = {
+const sharedNetworkConfig: HttpNetworkUserConfig = {
+  accounts: {
     mnemonic: MNEMONIC || DEFAULT_MNEMONIC,
-  }
+  },
 }
 
 export default {
