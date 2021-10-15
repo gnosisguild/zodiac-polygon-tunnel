@@ -1,18 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.7.3;
 
+/// @title TunnelEnd - A contract that contains base/common functionality for ZodiacPolygonTunnel pairs
+/// @author Cristóvão Honorato - <cristovao.honorato@gnosis.pm>
 contract TunnelEnd {
   bytes32 private latestSourceChainId;
   address private latestSourceChainSender;
 
+  /// @dev Provides the end executor contract with the id of the network where the call originated
   function messageSourceChainId() public view returns (bytes32) {
     return latestSourceChainId;
   }
 
+  /// @dev Provides the end executor contract with the address that triggered the call
   function messageSender() public view returns (address) {
     return latestSourceChainSender;
   }
 
+  /// @dev Encodes the message that will be delivered to FxRoot/FxChild
+  /// @param target executor address on the other side
+  /// @param data calldata passed to the executor on the other side
+  /// @param gas gas limit used on the other side for executing - 0xfffffff for unbound
   function encodeIntoTunnel(
     address target,
     bytes memory data,
@@ -21,6 +29,8 @@ contract TunnelEnd {
     return abi.encode(getChainId(), msg.sender, target, data, gas);
   }
 
+  /// @dev Decodes a message delivered by FxRoot/FxChild
+  /// @param message encoded payload describing executor and parameters. Includes also original sender and origin network id
   function decodeFromTunnel(bytes memory message)
     internal
     pure
@@ -43,6 +53,12 @@ contract TunnelEnd {
     return (sourceChainId, sourceChainSender, target, data, gas);
   }
 
+  /// @dev Triggers the process of sending a message to the opposite network
+  /// @param sourceChainId id of the network where the call was initiated
+  /// @param sourceChainSender address that initiated the call
+  /// @param target executor address on the other side
+  /// @param data calldata passed to the executor on the other side
+  /// @param gas gas limit used on the other side for executing - 0xfffffff for unbound
   function forwardToTarget(
     bytes32 sourceChainId,
     address sourceChainSender,
@@ -54,18 +70,10 @@ contract TunnelEnd {
 
     latestSourceChainId = sourceChainId;
     latestSourceChainSender = sourceChainSender;
-    (bool success, bytes memory returnData) = target.call{gas: gas}(data);
+    (bool success, ) = target.call{gas: gas}(data);
     latestSourceChainSender = address(0);
     latestSourceChainId = bytes32("0x");
-    validateExecutionStatus(success, returnData);
-  }
-
-  function validateExecutionStatus(bool success, bytes memory returnData)
-    private
-    pure
-  {
-    (returnData);
-    require(success);
+    require(success, "ForwardToTarget unsuccessful");
   }
 
   function getChainId() private pure returns (bytes32) {
