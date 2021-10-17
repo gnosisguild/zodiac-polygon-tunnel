@@ -9,6 +9,10 @@ contract ZodiacPolygonRootTunnel is FxBaseRootTunnel, TunnelEnd {
     FxBaseRootTunnel(_checkpointManager, _fxRoot)
   {}
 
+  /// @dev Requests message relay to Child network
+  /// @param target executor address on Child network
+  /// @param data calldata passed to the executor on Child network
+  /// @param gas gas limit used on Child Network for executing - 0xfffffff for unbound
   function sendMessage(
     address target,
     bytes memory data,

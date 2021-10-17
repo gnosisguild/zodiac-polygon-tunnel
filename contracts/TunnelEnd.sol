@@ -17,10 +17,10 @@ contract TunnelEnd {
     return latestSourceChainSender;
   }
 
-  /// @dev Encodes the message that will be delivered to FxRoot/FxChild
+  /// @dev Encodes a message to be delivered to FxRoot/FxChild
   /// @param target executor address on the other side
   /// @param data calldata passed to the executor on the other side
-  /// @param gas gas limit used on the other side for executing - 0xfffffff for unbound
+  /// @param gas gas limit used on the other side for executing
   function encodeIntoTunnel(
     address target,
     bytes memory data,
@@ -58,7 +58,7 @@ contract TunnelEnd {
   /// @param sourceChainSender address that initiated the call
   /// @param target executor address on the other side
   /// @param data calldata passed to the executor on the other side
-  /// @param gas gas limit used on the other side for executing - 0xfffffff for unbound
+  /// @param gas gas limit used on the other side for executing
   function forwardToTarget(
     bytes32 sourceChainId,
     address sourceChainSender,
@@ -73,7 +73,7 @@ contract TunnelEnd {
     (bool success, ) = target.call{gas: gas}(data);
     latestSourceChainSender = address(0);
     latestSourceChainId = bytes32("0x");
-    require(success, "ForwardToTarget unsuccessful");
+    require(success, "ForwardToTarget failed");
   }
 
   function getChainId() private pure returns (bytes32) {
