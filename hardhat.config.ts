@@ -22,9 +22,9 @@ const {
   SIGNER_MUMBAI_INDEX,
 } = process.env
 
-import "./src/tasks/setup"
-import "./src/tasks/generateProof"
 import { extendEnvironment } from "hardhat/config"
+
+import "./src/tasks"
 
 const DEFAULT_MNEMONIC =
   "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
