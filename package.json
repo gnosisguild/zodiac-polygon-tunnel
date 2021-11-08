@@ -11,11 +11,11 @@
     "lint:ts": "eslint --max-warnings 0 .",
     "fmt:sol": "prettier 'contracts/**/*.sol' -w",
     "prepack": "yarn build",
-    "deploy:testnet": "yarn contracts:testnet && yarn wire:testnet && yarn verify:testnet ",
+    "deploy:testnet": "yarn contracts:testnet && yarn wire:testnet",
     "contracts:testnet": "hardhat deployRootTunnel --network goerli && hardhat deployChildTunnel --network mumbai",    
     "wire:testnet": "hardhat wireRootTunnel --network goerli && hardhat wireChildTunnel --network mumbai",
     "verify:testnet": "hardhat verifyRootTunnel --network goerli && hardhat verifyChildTunnel --network mumbai",
-    "deploy:mainnet": "yarn contracts:mainnet && yarn wire:mainnet && yarn verify:mainnet ",
+    "deploy:mainnet": "yarn contracts:mainnet && yarn wire:mainnet",
     "contracts:mainnet": "hardhat deployRootTunnel --network goerli && hardhat deployChildTunnel --network polygon",    
     "wire:mainnet": "hardhat wireRootTunnel --network goerli && hardhat wireChildTunnel --network polygon",
     "verify:mainnet": "hardhat verifyRootTunnel --network goerli && hardhat verifyChildTunnel --network polygon"
