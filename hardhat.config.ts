@@ -4,9 +4,7 @@ import "@nomiclabs/hardhat-waffle"
 import "@nomiclabs/hardhat-etherscan"
 
 import "solidity-coverage"
-import "hardhat-deploy"
 import dotenv from "dotenv"
-import type { HttpNetworkUserConfig } from "hardhat/types"
 
 // Load environment variables.
 dotenv.config()

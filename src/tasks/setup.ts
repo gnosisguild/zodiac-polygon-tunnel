@@ -1,5 +1,4 @@
 import fs from "fs"
-import "hardhat-deploy"
 import "@nomiclabs/hardhat-ethers"
 import { task, types } from "hardhat/config"
 import { HardhatRuntimeEnvironment } from "hardhat/types"
