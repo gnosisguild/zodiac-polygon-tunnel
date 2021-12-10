@@ -8,3 +8,4 @@ env/
 coverage*
 deployments
 typechain
+deploy.temp.json

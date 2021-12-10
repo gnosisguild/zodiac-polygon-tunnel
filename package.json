@@ -4,14 +4,21 @@
   "description": "TODO",
   "scripts": {
     "build": "hardhat compile",
-    "test": "hardhat test",
-    "deploy": "hardhat deployRootTunnel",
+    "test": "hardhat test",    
     "coverage": "hardhat coverage",
     "lint": "yarn lint:sol && yarn lint:ts",
     "lint:sol": "solhint 'contracts/**/*.sol'",
     "lint:ts": "eslint --max-warnings 0 .",
     "fmt:sol": "prettier 'contracts/**/*.sol' -w",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "deploy:testnet": "yarn build && yarn contracts:testnet && yarn wire:testnet",
+    "contracts:testnet": "hardhat deployRootTunnel --network goerli && hardhat deployChildTunnel --network mumbai",    
+    "wire:testnet": "hardhat wireRootTunnel --network goerli && hardhat wireChildTunnel --network mumbai",
+    "verify:testnet": "hardhat verifyRootTunnel --network goerli && hardhat verifyChildTunnel --network mumbai",
+    "deploy:mainnet": "yarn build && yarn contracts:mainnet && yarn wire:mainnet",
+    "contracts:mainnet": "hardhat deployRootTunnel --network goerli && hardhat deployChildTunnel --network polygon",    
+    "wire:mainnet": "hardhat wireRootTunnel --network goerli && hardhat wireChildTunnel --network polygon",
+    "verify:mainnet": "hardhat verifyRootTunnel --network goerli && hardhat verifyChildTunnel --network polygon"
   },
   "repository": {
     "type": "git"
@@ -42,8 +49,7 @@
     "eslint-plugin-no-only-tests": "2.6.0",
     "ethereum-waffle": "3.4.0",
     "ethers": "5.4.7",
-    "hardhat": "2.6.5",
-    "hardhat-deploy": "0.9.3",
+    "hardhat": "2.6.5",    
     "prettier": "2.4.1",
     "prettier-plugin-solidity": "1.0.0-beta.18",
     "solhint": "3.3.6",
