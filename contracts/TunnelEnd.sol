@@ -67,6 +67,7 @@ contract TunnelEnd {
     uint256 gas
   ) internal {
     require(gas == 0xffffffff || (gasleft() * 63) / 64 > gas);
+    require(latestSourceChainSender == address(0), "ForwardToTarget failed");
 
     latestSourceChainId = sourceChainId;
     latestSourceChainSender = sourceChainSender;
